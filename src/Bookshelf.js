@@ -5,44 +5,43 @@ class Bookshelf extends Component {
 
   render() {
     const { books, onChangeBookshelf } = this.props;
-    const bookshelves = [];
-    let lastShelf = null;
-    books.forEach((book) => {
-      if (book.shelf !== lastShelf) {
-        bookshelves.push({
-            'shelf': book.shelf,
-            'books': [],
-        });
-      }
-      lastShelf = book.shelf;
-      bookshelves[bookshelves.length-1].books.push(book);
-    });
-    console.log('bookshelves', bookshelves)
+    const shelves = ['Currently Reading', 'Want to Read', 'Read'];
+    let key_s, bookshelf;
     return (
       <div>
-        {
-          bookshelves.map((bookshelf) => {
+        { 
+          shelves.map(shelf => {
+            key_s = shelf.toLocaleLowerCase().replace(/ /g, "");
+            bookshelf = books.filter(
+              bookshelf => bookshelf.shelf.toLocaleLowerCase() === key_s
+            );
             return (
-              <div key={bookshelf.shelf} className="bookshelf">
-                <h2 className="bookshelf-title">{bookshelf.shelf}</h2>
+              <div key={shelf} className="bookshelf">
+                <h2 className="bookshelf-title">{shelf}</h2>
                 <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {
-                      bookshelf.books.map((book) => {
-                        return (
-                          <li key={book.id} >
-                            <Book
-                              book={book}
-                              onChangeBookshelf={onChangeBookshelf}
-                            />
-                          </li>
-                        )
-                      })
-                    }
-                  </ol>
+                  {
+                    bookshelf.length !== 0 ? (
+                      <ol className="books-grid">
+                        {
+                          bookshelf.map((book) => {
+                            return (
+                              <li key={book.id} >
+                                <Book
+                                  book={book}
+                                  onChangeBookshelf={onChangeBookshelf}
+                                />
+                              </li>
+                            )
+                          })
+                        }
+                      </ol>
+                    ) : (
+                     <p>NONE</p>
+                    )
+                  }
                 </div>
               </div>
-            );
+            )
           })
         }
       </div>

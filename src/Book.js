@@ -14,7 +14,7 @@ class Book extends Component {
 
   handleChange(event) {
     console.log('shelf', event.target.value)
-    //this.onChangeBookshelf(this.book, event.target.value);
+    this.onChangeBookshelf(this.book, event.target.value);
   }
 
   render() {
